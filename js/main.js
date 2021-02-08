@@ -4,29 +4,28 @@
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // добавлено условие
 
-const getRandomIntNumber = function getRandomIntInclusive(min, max) {
+const isRangeValid = (min, max) => {
+  return min >= 0 && min < max;
+}
 
-  if (min >= 0 && min < max) {
+const getRandomIntNumber = (min, max) => {
+
+  if (isRangeValid(min, max)) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   } else {
-    alert('Введите корректные числа');
+    return null;
   }
 };
-
-getRandomIntNumber(1, 5);
 
 // Немного модифицировала предыдущую функцию
-const getRandomFloatNumber = function getRandomFloatInclusive(min, max, decimalPlaces) {
+const getRandomFloatNumber = (min, max, decimalPlaces) => {
 
-  if (min >= 0 && min < max && decimalPlaces >= 0) {
+  if (isRangeValid(min, max) && decimalPlaces >= 0) {
     let randomResult = (Math.random() * (max - min + 1)) + min;
-    let multiplier = Math.pow(10, decimalPlaces);
-    return Math.ceil(randomResult * multiplier) / multiplier;
+    return randomResult.toFixed(decimalPlaces);
   } else {
-    alert('Введите корректные числа');
+    return null;
   }
 };
-
-getRandomFloatNumber(3.1, -7.5, 6);
