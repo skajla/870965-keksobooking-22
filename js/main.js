@@ -19,6 +19,9 @@ const getRandomIntNumber = (min, max) => {
   }
 };
 
+//вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
+getRandomIntNumber(2, 7)
+
 // Немного модифицировала предыдущую функцию
 const getRandomFloatNumber = (min, max, decimalPlaces) => {
 
@@ -29,3 +32,6 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
     return null;
   }
 };
+
+//вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
+getRandomFloatNumber(2, 7, 2)
