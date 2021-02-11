@@ -10,6 +10,12 @@ const isRangeValid = (min, max) => {
 
 const getRandomIntNumber = (min, max) => {
 
+  if(min > max) {
+    let temp = min;
+    min = max;
+    max = temp;
+  }
+
   if (isRangeValid(min, max)) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -20,13 +26,23 @@ const getRandomIntNumber = (min, max) => {
 };
 
 //вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
-getRandomIntNumber(2, 7)
+getRandomIntNumber(10, 7);
 
 // Немного модифицировала предыдущую функцию
 const getRandomFloatNumber = (min, max, decimalPlaces) => {
 
+  if(decimalPlaces == 0){
+    return getRandomIntNumber(min, max);
+  }
+
+  if(min > max) {
+    let temp = min;
+    min = max;
+    max = temp;
+  }
+
   if (isRangeValid(min, max) && decimalPlaces >= 0) {
-    let randomResult = (Math.random() * (max - min + 1)) + min;
+    let randomResult = (Math.random() * (max - min)) + min;
     return randomResult.toFixed(decimalPlaces);
   } else {
     return null;
@@ -34,4 +50,4 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
 };
 
 //вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
-getRandomFloatNumber(2, 7, 2)
+getRandomFloatNumber(2, 7, 1);
