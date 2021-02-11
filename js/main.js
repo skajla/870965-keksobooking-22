@@ -1,8 +1,53 @@
 'use strict'
 
-// Функция взята отсюда
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-// добавлено условие
+const TITLES = [
+  'Title 1',
+  'Title 2',
+  'Title 3',
+  'Title 4',
+  'Title 5',
+]
+
+const TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+]
+
+const CHECKIN = [
+  '12:00',
+  '13:00',
+  '14:00',
+]
+
+const CHECKOUT = [
+  '12:00',
+  '13:00',
+  '14:00',
+]
+
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+]
+
+const DESCRIPTIONS = [
+  'Не оч',
+  'Ну такое',
+  'Норм',
+  'Агонь',
+]
+
+const PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+]
 
 const isRangeValid = (min, max) => {
   return min >= 0 && min < max;
@@ -25,10 +70,11 @@ const getRandomIntNumber = (min, max) => {
   }
 };
 
+
 //вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
 getRandomIntNumber(10, 7);
 
-// Немного модифицировала предыдущую функцию
+
 const getRandomFloatNumber = (min, max, decimalPlaces) => {
 
   if(decimalPlaces == 0){
@@ -51,3 +97,63 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
 
 //вызову функцию, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
 getRandomFloatNumber(2, 7, 1);
+
+
+const createLocation = () => {
+  return {
+    x: getRandomFloatNumber(35.65000, 35.70000, 5),
+    y: getRandomFloatNumber(139.70000, 139.80000, 5),
+  };
+};
+// оставлю console.log, чтобы тебе удобнее было проверять
+// console.log(createLocation());
+
+
+const createAuthor = () => {
+  let imgNumber = getRandomIntNumber(1, 8);
+  let imgNumberStr = imgNumber < 10? '0' + imgNumber : imgNumber;
+  return {
+    avatar: 'img/avatars/user' + imgNumberStr + '.png',
+  };
+};
+// оставлю console.log, чтобы тебе удобнее было проверять
+// console.log(createAuthor());
+
+
+const getRandomArrayElement = (elements) => {
+  return elements[getRandomIntNumber(0, elements.length - 1)];
+};
+
+
+const createOffer = (location) => {
+
+  return {
+    title: getRandomArrayElement(TITLES),
+    address: location.x + ', ' + location.y,
+    price: getRandomIntNumber(1, 1000000),
+    type: getRandomArrayElement(TYPES),
+    rooms: getRandomIntNumber(1, 100),
+    guests: getRandomIntNumber(1, 50),
+    checkin: getRandomArrayElement(CHECKIN),
+    checkout: getRandomArrayElement(CHECKOUT),
+    features: getRandomArrayElement(FEATURES),
+    description: getRandomArrayElement(DESCRIPTIONS),
+    photos: getRandomArrayElement(PHOTOS),
+  }
+}
+
+// оставлю console.log, чтобы тебе удобнее было проверять
+// console.log(createOffer(createLocation));
+
+
+const objectsList = new Array(10).fill(null).map(() => {
+  let location = createLocation();
+  return {
+    author: createAuthor(),
+    offer: createOffer(location),
+    location: location,
+  }
+});
+
+// вызову переменную, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
+objectsList;
