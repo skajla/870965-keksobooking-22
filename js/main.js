@@ -15,13 +15,7 @@ const TYPES = [
   'bungalow',
 ]
 
-const CHECKIN = [
-  '12:00',
-  '13:00',
-  '14:00',
-]
-
-const CHECKOUT = [
+const CHECKIN_CHECKOUT = [
   '12:00',
   '13:00',
   '14:00',
@@ -87,7 +81,7 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
     max = temp;
   }
 
-  if (isRangeValid(min, max) && decimalPlaces >= 0) {
+  if (isRangeValid(min, max) && decimalPlaces > 0) {
     let randomResult = (Math.random() * (max - min)) + min;
     return randomResult.toFixed(decimalPlaces);
   } else {
@@ -111,7 +105,7 @@ const createLocation = () => {
 
 const createAuthor = () => {
   let imgNumber = getRandomIntNumber(1, 8);
-  let imgNumberStr = imgNumber < 10? '0' + imgNumber : imgNumber;
+  let imgNumberStr = imgNumber < 10 ? '0' + imgNumber : imgNumber;
   return {
     avatar: 'img/avatars/user' + imgNumberStr + '.png',
   };
@@ -134,17 +128,30 @@ const createOffer = (location) => {
     type: getRandomArrayElement(TYPES),
     rooms: getRandomIntNumber(1, 100),
     guests: getRandomIntNumber(1, 50),
-    checkin: getRandomArrayElement(CHECKIN),
-    checkout: getRandomArrayElement(CHECKOUT),
-    features: getRandomArrayElement(FEATURES),
+    checkin: getRandomArrayElement(CHECKIN_CHECKOUT),
+    checkout: getRandomArrayElement(CHECKIN_CHECKOUT),
+    features: randomSubArray(FEATURES),
     description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getRandomArrayElement(PHOTOS),
+    photos: randomSubArray(PHOTOS),
   }
 }
 
 // оставлю console.log, чтобы тебе удобнее было проверять
 // console.log(createOffer(createLocation));
 
+const randomSubArray = (array) => {
+  if (array == null || array.length == 0) {
+    return null;
+  }
+
+  let length = getRandomIntNumber(1, array.length);
+
+  return new Array(length).fill(null).map(() => {
+    return getRandomArrayElement(array);
+  });
+}
+// оставлю console.log, чтобы тебе удобнее было проверять
+// console.log(createOffer(createOffer));
 
 const objectsList = new Array(10).fill(null).map(() => {
   let location = createLocation();
