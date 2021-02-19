@@ -1,5 +1,4 @@
-import {getRandomFloatNumber} from './util.js';
-import {getRandomIntNumber} from './util.js';
+import {getRandomFloatNumber, getRandomIntNumber} from './util.js';
 
 
 const TITLES = [
@@ -52,9 +51,6 @@ const createLocation = () => {
   };
 };
 
-// оставлю console.log, чтобы тебе удобнее было проверять
-// console.log(createLocation());
-
 
 const createAuthor = () => {
   let imgNumber = getRandomIntNumber(1, 8);
@@ -63,9 +59,6 @@ const createAuthor = () => {
     avatar: 'img/avatars/user' + imgNumberStr + '.png',
   };
 };
-
-// оставлю console.log, чтобы тебе удобнее было проверять
-// console.log(createAuthor());
 
 
 const getRandomArrayElement = (elements) => {
@@ -89,9 +82,6 @@ const createOffer = (location) => {
   }
 }
 
-// оставлю console.log, чтобы тебе удобнее было проверять
-// console.log(createOffer(createLocation));
-
 
 const randomSubArray = (array) => {
   if (array == null || array.length == 0) {
@@ -105,9 +95,6 @@ const randomSubArray = (array) => {
   });
 }
 
-// оставлю console.log, чтобы тебе удобнее было проверять
-// console.log(createOffer(createOffer));
-
 
 const objectsList = new Array(10).fill(null).map(() => {
   let location = createLocation();
@@ -118,6 +105,5 @@ const objectsList = new Array(10).fill(null).map(() => {
   }
 });
 
-// вызову переменную, иначе линтер ругается, что переменная объявлена, но не испозуется нигде
 objectsList;
 
