@@ -105,5 +105,5 @@ const objectsList = new Array(10).fill(null).map(() => {
   }
 });
 
-objectsList;
 
+export {objectsList};

@@ -19,8 +19,6 @@ const getRandomIntNumber = (min, max) => {
   }
 };
 
-getRandomIntNumber(10, 7);
-
 
 const getRandomFloatNumber = (min, max, decimalPlaces) => {
   if(decimalPlaces == 0){
@@ -40,8 +38,6 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
     return null;
   }
 };
-
-getRandomFloatNumber(2, 7, 1);
 
 
 export {getRandomIntNumber, getRandomFloatNumber};

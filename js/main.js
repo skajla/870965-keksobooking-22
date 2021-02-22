@@ -1,1 +1,3 @@
-import './data.js';
+import {objectsList} from './data.js';
+
+objectsList
