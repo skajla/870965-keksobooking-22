@@ -1,15 +1,6 @@
-// import {objectsList} from './data.js';
-// import {similarCardsListFragment} from './card.js';
-
-// objectsList;
-
-// const mapCanvas = document.querySelector('#map-canvas');
-
-// mapCanvas.appendChild(similarCardsListFragment);
-
-
 import {objectsList} from './data.js';
 import {getCardTemplate} from './card.js';
+import './form.js';
 
 const adsList = objectsList;
 
