@@ -40,4 +40,19 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
 };
 
 
-export {getRandomIntNumber, getRandomFloatNumber};
+const setFormEnabled = (form, formItemList, isEnabled) => {
+  if(isEnabled) {
+    form.classList.remove('ad-form--disabled');
+    for (let item of formItemList) {
+      item.removeAttribute('disabled');
+    }
+  } else {
+    form.classList.add('ad-form--disabled');
+    for (let item of formItemList) {
+      item.setAttribute('disabled', true);
+    }
+  }
+};
+
+
+export {getRandomIntNumber, getRandomFloatNumber, setFormEnabled};

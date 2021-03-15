@@ -44,6 +44,7 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ]
 
+
 const createLocation = () => {
   return {
     x: getRandomFloatNumber(35.65000, 35.70000, 5),

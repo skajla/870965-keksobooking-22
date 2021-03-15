@@ -1,3 +1,6 @@
+import {setFormEnabled} from './util.js';
+
+
 const minPricePerNight = {
   'flat': 1000,
   'bungalow': 0,
@@ -22,6 +25,11 @@ changePricePlaceholder(typeSelector.value);
 
 typeSelector.onchange = onTypeChanged;
 
+
+const setNoticeFormEnabled = (isEnabled) => {
+  let fieldsetItems = formItem.getElementsByTagName('fieldset');
+  setFormEnabled(formItem, fieldsetItems, isEnabled);
+}
 
 const roomNumber = formItem.querySelector('#room_number');
 const roomCapacity = formItem.querySelector('#capacity');
@@ -48,3 +56,6 @@ roomCapacity.onchange = () => {
 roomNumber.onchange = () => {
   validateRooms()
 };
+
+
+export {setNoticeFormEnabled};
