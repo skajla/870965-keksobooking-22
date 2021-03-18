@@ -1,4 +1,4 @@
-import {setFormEnabled} from './util.js';
+import {formControls} from './util.js';
 
 
 const minPricePerNight = {
@@ -8,9 +8,9 @@ const minPricePerNight = {
   'palace': 10000,
 };
 
-const formItem = document.querySelector('.ad-form');
-const pricePerNight = formItem.querySelector('#price');
-const typeSelector = formItem.querySelector('#type');
+const adForm = document.querySelector('.ad-form');
+const pricePerNight = adForm.querySelector('#price');
+const typeSelector = adForm.querySelector('#type');
 
 const onTypeChanged = () => {
   changePricePlaceholder(typeSelector.value)
@@ -27,21 +27,19 @@ typeSelector.onchange = onTypeChanged;
 
 
 const setNoticeFormEnabled = (isEnabled) => {
-  let fieldsetItems = formItem.getElementsByTagName('fieldset');
-  setFormEnabled(formItem, fieldsetItems, isEnabled);
-}
+  formControls(adForm, isEnabled);
+};
 
-const roomNumber = formItem.querySelector('#room_number');
-const roomCapacity = formItem.querySelector('#capacity');
+const roomQuantity = adForm.querySelector('#room_number');
+const roomCapacity = adForm.querySelector('#capacity');
 
 const validateRooms = () => {
-
-  let isValid = roomNumber.value === 100 && roomCapacity.value === 0 || roomNumber.value != 100 && roomCapacity.value != 0 && roomNumber.value >= roomCapacity.value;
+  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value != 100 && roomCapacity.value != 0 && roomQuantity.value >= roomCapacity.value;
 
   if(isValid) {
     roomCapacity.setCustomValidity('');
   } else {
-    if(roomNumber.value == 100) {
+    if(roomQuantity.value == 100) {
       roomCapacity.setCustomValidity('100 комнат только не для гостей!!!');
     } else {
       roomCapacity.setCustomValidity('Гостей много, а комнат мало!!!');
@@ -53,8 +51,20 @@ roomCapacity.onchange = () => {
   validateRooms()
 };
 
-roomNumber.onchange = () => {
+roomQuantity.onchange = () => {
   validateRooms()
+};
+
+
+const checkInTime = adForm.querySelector('#timein');
+const checkOutTime = adForm.querySelector('#timeout');
+
+checkInTime.onchange = () => {
+  checkOutTime.value = checkInTime.value ;
+};
+
+checkOutTime.onchange = () => {
+  checkInTime.value = checkOutTime.value ;
 };
 
 

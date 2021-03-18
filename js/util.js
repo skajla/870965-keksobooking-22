@@ -1,6 +1,6 @@
 const isRangeValid = (min, max) => {
   return min >= 0 && min < max;
-}
+};
 
 
 const getRandomIntNumber = (min, max) => {
@@ -40,19 +40,21 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
 };
 
 
-const setFormEnabled = (form, formItemList, isEnabled) => {
+const formControls = (form, isEnabled) => {
+  let adFormList = form.getElementsByTagName('fieldset');
+
   if(isEnabled) {
     form.classList.remove('ad-form--disabled');
-    for (let item of formItemList) {
+    for (let item of adFormList) {
       item.removeAttribute('disabled');
     }
   } else {
     form.classList.add('ad-form--disabled');
-    for (let item of formItemList) {
+    for (let item of adFormList) {
       item.setAttribute('disabled', true);
     }
   }
 };
 
 
-export {getRandomIntNumber, getRandomFloatNumber, setFormEnabled};
+export {getRandomIntNumber, getRandomFloatNumber, formControls};

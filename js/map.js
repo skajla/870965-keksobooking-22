@@ -1,16 +1,12 @@
-import {setFormEnabled} from './util.js';
+/* global L:readonly */
+
+
 import {getCardTemplate} from './card.js';
 
 
 const mapLatLngMaxPlaces = 5;
 const defaultLat = 35.6895000;
 const defaultLng = 139.6917100;
-const mapFiltersForm = document.querySelector('.map__filters');
-
-const setMapFormEnabled = (isEnabled) => {
-  let fieldsetItems = Array.from(mapFiltersForm.getElementsByTagName('fieldset')).concat(Array.from(mapFiltersForm.getElementsByTagName('select')));
-  setFormEnabled(mapFiltersForm, fieldsetItems, isEnabled);
-};
 
 const initMap = (onLoad, notices) => {
   const map = L.map('map-canvas')
@@ -75,15 +71,17 @@ const initMap = (onLoad, notices) => {
   });
 
   mainPinMarker.on('moveend', (evt) => {
-    let latLng = evt.target.getLatLng() ;
+    const latLng = evt.target.getLatLng() ;
     updateLatLngField(latLng.lat, latLng.lng);
   });
 };
 
-const updateLatLngField =(lat, lng)=>{
-  const addressItem = document.querySelector('#address');
+
+const addressItem = document.querySelector('#address');
+
+const updateLatLngField = (lat, lng) => {
   addressItem.value = lat.toFixed(mapLatLngMaxPlaces) + ', ' + lng.toFixed(mapLatLngMaxPlaces);
 };
 
 
-export {setMapFormEnabled, initMap};
+export {initMap};

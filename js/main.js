@@ -1,15 +1,16 @@
 import {objectsList} from './data.js';
 import {setNoticeFormEnabled} from './form.js';
-import {setMapFormEnabled, initMap} from './map.js';
+import {initMap} from './map.js';
+import {setMapFormEnabled} from './filter.js';
 
 
-const setFormsEnabled = (isEnabled) =>{
+const setFormsEnabled = (isEnabled) => {
   setNoticeFormEnabled(isEnabled);
   setMapFormEnabled(isEnabled);
 }
 
 setFormsEnabled(false);
 
-initMap(function() {
+initMap(() => {
   setFormsEnabled(true);
 }, objectsList);

@@ -81,7 +81,7 @@ const createOffer = (location) => {
     description: getRandomArrayElement(DESCRIPTIONS),
     photos: randomSubArray(PHOTOS),
   }
-}
+};
 
 
 const randomSubArray = (array) => {
@@ -94,7 +94,7 @@ const randomSubArray = (array) => {
   return new Array(length).fill(null).map(() => {
     return getRandomArrayElement(array);
   });
-}
+};
 
 
 const objectsList = new Array(10).fill(null).map(() => {
