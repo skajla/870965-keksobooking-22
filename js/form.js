@@ -1,4 +1,4 @@
-import {formControls} from './util.js';
+import {setFormDisabled, setFormEnabled} from './util.js';
 
 
 const minPricePerNight = {
@@ -27,7 +27,11 @@ typeSelector.onchange = onTypeChanged;
 
 
 const setNoticeFormEnabled = (isEnabled) => {
-  formControls(adForm, isEnabled);
+  if(isEnabled) {
+    setFormEnabled(adForm , 'ad-form--disabled');
+  }else {
+    setFormDisabled(adForm, 'ad-form--disabled');
+  }
 };
 
 const roomQuantity = adForm.querySelector('#room_number');

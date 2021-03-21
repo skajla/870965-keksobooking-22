@@ -1,11 +1,14 @@
-import {formControls} from './util.js';
+import {setFormEnabled, setFormDisabled} from './util.js';
 
 
 const mapFiltersForm = document.querySelector('.map__filters');
 
 const setMapFormEnabled = (isEnabled) => {
-  let fieldsetItems = Array.from(mapFiltersForm.getElementsByTagName('fieldset')).concat(Array.from(mapFiltersForm.getElementsByTagName('select')));
-  formControls(mapFiltersForm, fieldsetItems, isEnabled);
+  if(isEnabled) {
+    setFormEnabled(mapFiltersForm, 'map__filters--disabled');
+  }else {
+    setFormDisabled(mapFiltersForm, 'map__filters--disabled');
+  }
 };
 
 

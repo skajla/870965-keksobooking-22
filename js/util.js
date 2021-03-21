@@ -40,21 +40,27 @@ const getRandomFloatNumber = (min, max, decimalPlaces) => {
 };
 
 
-const formControls = (form, isEnabled) => {
-  let adFormList = form.getElementsByTagName('fieldset');
+const getFormControls = (form) => {
+  return Array.from(form.getElementsByTagName('fieldset'))
+    .concat(Array.from(form.getElementsByTagName('select')));
+};
 
-  if(isEnabled) {
-    form.classList.remove('ad-form--disabled');
-    for (let item of adFormList) {
-      item.removeAttribute('disabled');
-    }
-  } else {
-    form.classList.add('ad-form--disabled');
-    for (let item of adFormList) {
-      item.setAttribute('disabled', true);
-    }
+
+const setFormEnabled = (form, disabledFormClass) => {
+  form.classList.remove(disabledFormClass);
+  let fieldset = getFormControls(form);
+  for (let item of fieldset) {
+    item.removeAttribute('disabled');
+  }
+};
+
+const setFormDisabled = (form, disabledFormClass) => {
+  form.classList.add(disabledFormClass);
+  let fieldset = getFormControls(form);
+  for (let item of fieldset) {
+    item.setAttribute('disabled', true);
   }
 };
 
 
-export {getRandomIntNumber, getRandomFloatNumber, formControls};
+export {getRandomIntNumber, getRandomFloatNumber, setFormDisabled, setFormEnabled};
