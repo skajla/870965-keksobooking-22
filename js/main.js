@@ -1,11 +1,16 @@
 import {objectsList} from './data.js';
-import {getCardTemplate} from './card.js';
-import './form.js';
+import {setNoticeFormEnabled} from './form.js';
+import {initMap} from './map.js';
+import {setMapFormEnabled} from './filter.js';
 
-const adsList = objectsList;
 
-const cardTemplate = getCardTemplate(adsList[0]);
+const setFormsEnabled = (isEnabled) => {
+  setNoticeFormEnabled(isEnabled);
+  setMapFormEnabled(isEnabled);
+}
 
-const mapCanvas = document.querySelector('#map-canvas');
+setFormsEnabled(false);
 
-mapCanvas.appendChild(cardTemplate);
+initMap(() => {
+  setFormsEnabled(true);
+}, objectsList);
