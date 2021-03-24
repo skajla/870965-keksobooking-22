@@ -97,14 +97,14 @@ const randomSubArray = (array) => {
 };
 
 
-const objectsList = new Array(10).fill(null).map(() => {
-  let location = createLocation();
-  return {
-    author: createAuthor(),
-    offer: createOffer(location),
-    location: location,
-  }
-});
+// const objectsList = new Array(10).fill(null).map(() => {
+//   let location = createLocation();
+//   return {
+//     author: createAuthor(),
+//     offer: createOffer(location),
+//     location: location,
+//   }
+// });
 
 
-export {objectsList};
+// export {objectsList};

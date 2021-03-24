@@ -65,6 +65,11 @@
             <label class="map__feature map__feature--conditioner" for="filter-conditioner">Кондиционер</label>
            </fieldset>
         </form>
+
+        <!-- Сообщение, когда не получены данные с сервера -->
+        <div class="nodata hidden">
+          <p class="nodata__message">Ну не смогла я! :(</p>
+        </div>
       </div>
     </section>
 
@@ -231,6 +236,11 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
+
+  <!-- Сообщение, когда не получены данные с сервера
+  <div class="nodata">
+    <p class="nodata__message">Ну не смогла я! :(</p>
+  </div> -->
   <script src="leaflet/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script src="js/main.js" type="module"></script>
 </body>
