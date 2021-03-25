@@ -20,33 +20,33 @@ adForm.addEventListener('submit', (evt) => {
 
 const prepareAndSendForm = (form) => {
   postBookingData(new FormData(form))
-    .then(response => {
+    .then(() => {
       form.reset();
       showFormSentSuccessMessage();
-    }).catch ((error) => {
+    }).catch (() => {
       showFormSendingFailedMessage();
     });
 };
 
 const showFormSentSuccessMessage = () => {
-  showFormDialogByTemplateId('success','success');
-};
-
-const showFormSendingFailedMessage = () => {
-  showFormDialogByTemplateId('error','error');
-};
-
-const showFormDialogByTemplateId = (templateId, className) => {
-  let messageBlock = document.querySelector('#'+templateId).content.cloneNode(true);
-  let mainContatiner = document.getElementsByTagName('main')[0];
+  let messageBlock = document.querySelector('#success').content.cloneNode(true);
+  let mainContatiner = document.querySelector('main');
 
   messageBlock.firstElementChild.onclick = () => {
-    mainContatiner.removeChild(mainContatiner.getElementsByClassName(className)[0]);
-
+    mainContatiner.removeChild(mainContatiner.querySelector('.success'));
   }
   mainContatiner.appendChild(messageBlock);
 };
 
+const showFormSendingFailedMessage = () => {
+  let messageBlock = document.querySelector('#error').content.cloneNode(true);
+  let mainContatiner = document.querySelector('main');
+
+  messageBlock.firstElementChild.onclick = () => {
+    mainContatiner.removeChild(mainContatiner.querySelector('.error'));
+  }
+  mainContatiner.appendChild(messageBlock);
+};
 
 const onTypeChanged = () => {
   changePricePlaceholder(typeSelector.value)

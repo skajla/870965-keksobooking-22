@@ -5,8 +5,8 @@ import {loadBookingData} from './network.js';
 
 
 const setFormsEnabled = (isEnabled) => {
-  setNoticeFormEnabled(isEnabled);
   setMapFormEnabled(isEnabled);
+  setNoticeFormEnabled(isEnabled);
 };
 
 setFormsEnabled(false);
@@ -17,14 +17,18 @@ const initMapLayout = () => {
     initMap(),
     loadBookingData(),
   ]).then(results => {
-    setNoticesToMap(results[0], results[1]);
+
+    const [map, points] = results;
+    setNoticesToMap(map, points);
+    setMapFormEnabled(true);
   }).catch(
     () => {
+      setMapFormEnabled(false);
       const nodataMessage = document.querySelector('.nodata');
       nodataMessage.classList.remove('hidden');
     },
   ).finally (() => {
-    setFormsEnabled(true)
+    setNoticeFormEnabled(true);
   })
 };
 
