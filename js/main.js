@@ -13,23 +13,22 @@ setFormsEnabled(false);
 
 
 const initMapLayout = () => {
-  Promise.all([
-    initMap(),
-    loadBookingData(),
-  ]).then(results => {
 
-    const [map, points] = results;
-    setNoticesToMap(map, points);
-    setMapFormEnabled(true);
-  }).catch(
-    () => {
-      setMapFormEnabled(false);
-      const nodataMessage = document.querySelector('.nodata');
-      nodataMessage.classList.remove('hidden');
-    },
-  ).finally (() => {
-    setNoticeFormEnabled(true);
-  })
+  const nodataMessage = document.querySelector('.nodata');
+
+  initMap().catch(() => {
+    setMapFormEnabled(false);
+    nodataMessage.classList.add('hidden');
+  }).then((map) => {
+    if(map) {
+      loadBookingData().then((points) => {
+        setNoticesToMap(map, points);
+        setMapFormEnabled(true);
+      }).finally(() => {
+        setNoticeFormEnabled(true);
+      });
+    }
+  });
 };
 
 initMapLayout();

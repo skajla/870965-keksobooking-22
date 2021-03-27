@@ -32,12 +32,6 @@ const initMap = async () => {
     },
   ).addTo(map);
 
-  return map;
-};
-
-
-const setNoticesToMap = (map, notices) =>{
-
   const mainPinIcon = L.icon({
     iconUrl: 'img/main-pin.svg',
     iconSize: [32, 32],
@@ -56,11 +50,16 @@ const setNoticesToMap = (map, notices) =>{
   );
 
   mainPinMarker.addTo(map);
-
   mainPinMarker.on('moveend', (evt) => {
     const latLng = evt.target.getLatLng() ;
     updateLatLngField(latLng.lat, latLng.lng);
   });
+
+  return map;
+};
+
+
+const setNoticesToMap = (map, notices) =>{
 
   notices.forEach(notice => {
     L.marker(
