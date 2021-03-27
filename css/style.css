@@ -95,6 +95,7 @@ fieldset {
  */
 
 .map__filters-container {
+  position: relative;
   width: 100%;
   background-color: #000000;
 }
@@ -1025,4 +1026,20 @@ fieldset {
 
 .hidden {
   display: none;
+}
+
+.nodata {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  color: red;
+  font-weight: 600;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+
+.nodata__message {
+  margin: 0;
+  text-align: center;
 }

@@ -1,4 +1,5 @@
 import {setFormDisabled, setFormEnabled} from './util.js';
+import {postBookingData} from './network.js';
 
 
 const minPricePerNight = {
@@ -12,9 +13,45 @@ const adForm = document.querySelector('.ad-form');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
 
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  prepareAndSendForm(evt.target);
+});
+
+const prepareAndSendForm = (form) => {
+  postBookingData(new FormData(form))
+    .then(() => {
+      form.reset();
+      showFormSentSuccessMessage();
+    }).catch (() => {
+      showFormSendingFailedMessage();
+    });
+};
+
+const showFormSentSuccessMessage = () => {
+  let messageBlock = document.querySelector('#success').content.cloneNode(true);
+  let mainContatiner = document.querySelector('main');
+
+  messageBlock.firstElementChild.onclick = () => {
+    mainContatiner.removeChild(mainContatiner.querySelector('.success'));
+  }
+  mainContatiner.appendChild(messageBlock);
+};
+
+const showFormSendingFailedMessage = () => {
+  let messageBlock = document.querySelector('#error').content.cloneNode(true);
+  let mainContatiner = document.querySelector('main');
+
+  messageBlock.firstElementChild.onclick = () => {
+    mainContatiner.removeChild(mainContatiner.querySelector('.error'));
+  }
+  mainContatiner.appendChild(messageBlock);
+};
+
 const onTypeChanged = () => {
   changePricePlaceholder(typeSelector.value)
 };
+
 
 const changePricePlaceholder = (type) => {
   const minPrice = minPricePerNight[type];
@@ -33,6 +70,7 @@ const setNoticeFormEnabled = (isEnabled) => {
     setFormDisabled(adForm, 'ad-form--disabled');
   }
 };
+
 
 const roomQuantity = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');

@@ -8,10 +8,15 @@ const mapLatLngMaxPlaces = 5;
 const defaultLat = 35.6895000;
 const defaultLng = 139.6917100;
 
-const initMap = (onLoad, notices) => {
+const secondaryPinIcon = L.icon({
+  iconUrl: 'img/pin.svg',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
+
+const initMap = async () => {
   const map = L.map('map-canvas')
     .on('load', () => {
-      onLoad();
       updateLatLngField(defaultLat, defaultLng);
     })
 
@@ -45,18 +50,22 @@ const initMap = (onLoad, notices) => {
   );
 
   mainPinMarker.addTo(map);
-
-  const secondaryPinIcon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
+  mainPinMarker.on('moveend', (evt) => {
+    const latLng = evt.target.getLatLng() ;
+    updateLatLngField(latLng.lat, latLng.lng);
   });
+
+  return map;
+};
+
+
+const setNoticesToMap = (map, notices) =>{
 
   notices.forEach(notice => {
     L.marker(
       {
-        lat: notice.location.x,
-        lng: notice.location.y,
+        lat: notice.location.lat,
+        lng: notice.location.lng,
       },
       {
         draggable: false,
@@ -69,11 +78,6 @@ const initMap = (onLoad, notices) => {
       },
     )
   });
-
-  mainPinMarker.on('moveend', (evt) => {
-    const latLng = evt.target.getLatLng() ;
-    updateLatLngField(latLng.lat, latLng.lng);
-  });
 };
 
 
@@ -84,4 +88,4 @@ const updateLatLngField = (lat, lng) => {
 };
 
 
-export {initMap};
+export {initMap, setNoticesToMap};
