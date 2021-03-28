@@ -8,6 +8,9 @@ const mapLatLngMaxPlaces = 5;
 const defaultLat = 35.6895000;
 const defaultLng = 139.6917100;
 
+let noticesLayerGroup;
+let map;
+
 const secondaryPinIcon = L.icon({
   iconUrl: 'img/pin.svg',
   iconSize: [32, 32],
@@ -15,7 +18,7 @@ const secondaryPinIcon = L.icon({
 });
 
 const initMap = async () => {
-  const map = L.map('map-canvas')
+  map = L.map('map-canvas')
     .on('load', () => {
       updateLatLngField(defaultLat, defaultLng);
     })
@@ -54,30 +57,39 @@ const initMap = async () => {
     const latLng = evt.target.getLatLng() ;
     updateLatLngField(latLng.lat, latLng.lng);
   });
-
-  return map;
 };
 
+const clearMap = () => {
+  if(noticesLayerGroup && map) {
+    map.removeLayer(noticesLayerGroup);
+    noticesLayerGroup = null;
+  }
+}
 
-const setNoticesToMap = (map, notices) =>{
+const setNoticesToMap = (notices) => {
+  if(map) {
+    clearMap();
 
-  notices.forEach(notice => {
-    L.marker(
-      {
-        lat: notice.location.lat,
-        lng: notice.location.lng,
-      },
-      {
-        draggable: false,
-        icon: secondaryPinIcon,
-      },
-    ).addTo(map).bindPopup(
-      getCardTemplate(notice),
-      {
-        keepInView: true,
-      },
-    )
-  });
+    let noticesLayer = notices.map(notice => {
+      return L.marker(
+        {
+          lat: notice.location.lat,
+          lng: notice.location.lng,
+        },
+        {
+          draggable: false,
+          icon: secondaryPinIcon,
+        },
+      ).bindPopup(
+        getCardTemplate(notice),
+        {
+          keepInView: true,
+        },
+      )
+    });
+    noticesLayerGroup = L.layerGroup(noticesLayer);
+    noticesLayerGroup.addTo(map);
+  }
 };
 
 

@@ -66,7 +66,7 @@ typeSelector.onchange = onTypeChanged;
 const setNoticeFormEnabled = (isEnabled) => {
   if(isEnabled) {
     setFormEnabled(adForm , 'ad-form--disabled');
-  }else {
+  } else {
     setFormDisabled(adForm, 'ad-form--disabled');
   }
 };
