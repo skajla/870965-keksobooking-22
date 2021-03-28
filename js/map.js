@@ -11,11 +11,13 @@ const defaultLng = 139.6917100;
 let noticesLayerGroup;
 let map;
 
+
 const secondaryPinIcon = L.icon({
   iconUrl: 'img/pin.svg',
   iconSize: [32, 32],
   iconAnchor: [16, 32],
 });
+
 
 const initMap = async () => {
   map = L.map('map-canvas')
@@ -59,17 +61,18 @@ const initMap = async () => {
   });
 };
 
+
 const clearMap = () => {
   if(noticesLayerGroup && map) {
     map.removeLayer(noticesLayerGroup);
     noticesLayerGroup = null;
   }
-}
+};
+
 
 const setNoticesToMap = (notices) => {
   if(map) {
     clearMap();
-
     let noticesLayer = notices.map(notice => {
       return L.marker(
         {

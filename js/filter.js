@@ -7,7 +7,6 @@ const housingPriceSelector = mapFiltersForm .querySelector('#housing-price');
 const housingRoomsSelector = mapFiltersForm .querySelector('#housing-rooms');
 const housingGuestsSelector = mapFiltersForm .querySelector('#housing-guests');
 const housingFeaturesBlock = mapFiltersForm .querySelector('#housing-features');
-
 const filterDishwasher= housingFeaturesBlock.querySelector('#filter-dishwasher');
 const filterParking = housingFeaturesBlock.querySelector('#filter-parking');
 const filterWasher = housingFeaturesBlock.querySelector('#filter-washer');
@@ -23,6 +22,7 @@ const setMapFormEnabled = (isEnabled) => {
     setFormDisabled(mapFiltersForm, 'map__filters--disabled');
   }
 };
+
 
 const readMapFilters = () => {
   let features = new Array();
@@ -40,10 +40,10 @@ const readMapFilters = () => {
     housingGuests: housingGuestsSelector.value,
     features: features,
   };
-}
+};
+
 
 const filterNoticesByFormFilters = (notices) => {
-
   let filters = readMapFilters();
 
   return trimArray(notices.filter(notice => {
@@ -64,22 +64,22 @@ const filterNoticesByFormFilters = (notices) => {
     return isCorrect;
   },
   ))
-}
+};
+
 
 const initFormEvents = (onChanged) => {
-
   housingTypeSelector.onchange = onChanged;
   housingPriceSelector.onchange = onChanged;
   housingRoomsSelector.onchange = onChanged;
   housingGuestsSelector.onchange = onChanged;
   housingFeaturesBlock.onchange = onChanged;
-
   filterDishwasher.onchange = onChanged;
   filterParking.onchange = onChanged;
   filterWasher.onchange = onChanged;
   filterElevator.onchange = onChanged;
   filterConditioner.onchange = onChanged;
   filterWifi.onchange = onChanged;
-}
+};
+
 
 export {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents};
