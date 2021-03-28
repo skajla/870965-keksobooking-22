@@ -66,20 +66,20 @@ const filterNoticesByFormFilters = (notices) => {
   ))
 }
 
-const initFormEvents = (onChenged) => {
+const initFormEvents = (onChanged) => {
 
-  housingTypeSelector.onchange = onChenged;
-  housingPriceSelector.onchange = onChenged;
-  housingRoomsSelector.onchange = onChenged;
-  housingGuestsSelector.onchange = onChenged;
-  housingFeaturesBlock.onchange = onChenged;
+  housingTypeSelector.onchange = onChanged;
+  housingPriceSelector.onchange = onChanged;
+  housingRoomsSelector.onchange = onChanged;
+  housingGuestsSelector.onchange = onChanged;
+  housingFeaturesBlock.onchange = onChanged;
 
-  filterDishwasher.onchange = onChenged;
-  filterParking.onchange = onChenged;
-  filterWasher.onchange = onChenged;
-  filterElevator.onchange = onChenged;
-  filterConditioner.onchange = onChenged;
-  filterWifi.onchange = onChenged;
+  filterDishwasher.onchange = onChanged;
+  filterParking.onchange = onChanged;
+  filterWasher.onchange = onChanged;
+  filterElevator.onchange = onChanged;
+  filterConditioner.onchange = onChanged;
+  filterWifi.onchange = onChanged;
 }
 
 export {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents};
