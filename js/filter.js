@@ -14,6 +14,14 @@ const filterElevator = housingFeaturesBlock.querySelector('#filter-elevator');
 const filterConditioner = housingFeaturesBlock.querySelector('#filter-conditioner');
 const filterWifi = housingFeaturesBlock.querySelector('#filter-wifi');
 
+const FILTER_VALUE_ANY = 'any';
+const FILTER_VALUE_LOW = 'low';
+const FILTER_VALUE_MIDDLE = 'middle';
+const FILTER_VALUE_HIGH = 'high';
+
+const MAX_FOR_LOW_PRICE = 10000;
+const MAX_FOR_MIDDLE_PRICE = 50000;
+
 
 const setMapFormEnabled = (isEnabled) => {
   if(isEnabled) {
@@ -45,40 +53,37 @@ const readMapFilters = () => {
 
 const filterNoticesByFormFilters = (notices) => {
   let filters = readMapFilters();
-
   return trimArray(notices.filter(notice => {
-    let isCorrect = true;
     let offer = notice.offer;
+    let isCheckingSuccess = filters.housingType === FILTER_VALUE_ANY || filters.housingType === offer.type;
+    isCheckingSuccess = isCheckingSuccess && (filters.housingRooms === FILTER_VALUE_ANY || filters.housingRooms === parseInt(offer.rooms));
+    isCheckingSuccess = isCheckingSuccess && (filters.housingGuests === FILTER_VALUE_ANY || filters.housingGuests === parseInt(offer.guests));
+    isCheckingSuccess = isCheckingSuccess && (filters.features.length === 0 || filters.features.every(v => offer.features.includes(v)));
 
-    isCorrect = isCorrect && (filters.housingType === 'any' || filters.housingType == offer.type);
-    isCorrect = isCorrect && (filters.housingRooms === 'any' || filters.housingRooms == offer.rooms);
-    isCorrect = isCorrect && (filters.housingGuests === 'any' || filters.housingGuests == offer.guests);
-    isCorrect = isCorrect && (filters.features.length === 0 || filters.features.every(v => offer.features.includes(v)));
-
-    isCorrect = isCorrect && (filters.housingPrice === 'any' || (
-      filters.housingPrice === 'low' && offer.price < 10000 ||
-      filters.housingPrice === 'middle' && offer.price >= 10000 && offer.price < 50000 ||
-      filters.housingPrice === 'low' && offer.price > 50000
+    isCheckingSuccess = isCheckingSuccess && (filters.housingPrice === FILTER_VALUE_ANY || (
+      filters.housingPrice === FILTER_VALUE_LOW && offer.price < MAX_FOR_LOW_PRICE ||
+      filters.housingPrice === FILTER_VALUE_MIDDLE && offer.price >= MAX_FOR_LOW_PRICE && offer.price < MAX_FOR_MIDDLE_PRICE ||
+      filters.housingPrice === FILTER_VALUE_HIGH && offer.price > MAX_FOR_MIDDLE_PRICE
     ));
 
-    return isCorrect;
+    return isCheckingSuccess;
   },
   ))
 };
 
 
-const initFormEvents = (onChanged) => {
-  housingTypeSelector.onchange = onChanged;
-  housingPriceSelector.onchange = onChanged;
-  housingRoomsSelector.onchange = onChanged;
-  housingGuestsSelector.onchange = onChanged;
-  housingFeaturesBlock.onchange = onChanged;
-  filterDishwasher.onchange = onChanged;
-  filterParking.onchange = onChanged;
-  filterWasher.onchange = onChanged;
-  filterElevator.onchange = onChanged;
-  filterConditioner.onchange = onChanged;
-  filterWifi.onchange = onChanged;
+const initFormEvents = (onFilterItemChange) => {
+  housingTypeSelector.onchange = onFilterItemChange;
+  housingPriceSelector.onchange = onFilterItemChange;
+  housingRoomsSelector.onchange = onFilterItemChange;
+  housingGuestsSelector.onchange = onFilterItemChange;
+  housingFeaturesBlock.onchange = onFilterItemChange;
+  filterDishwasher.onchange = onFilterItemChange;
+  filterParking.onchange = onFilterItemChange;
+  filterWasher.onchange = onFilterItemChange;
+  filterElevator.onchange = onFilterItemChange;
+  filterConditioner.onchange = onFilterItemChange;
+  filterWifi.onchange = onFilterItemChange;
 };
 
 

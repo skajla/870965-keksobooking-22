@@ -59,11 +59,12 @@ const initMap = async () => {
     const latLng = evt.target.getLatLng() ;
     updateLatLngField(latLng.lat, latLng.lng);
   });
+  return true;
 };
 
 
 const clearMap = () => {
-  if(noticesLayerGroup && map) {
+  if(noticesLayerGroup) {
     map.removeLayer(noticesLayerGroup);
     noticesLayerGroup = null;
   }
