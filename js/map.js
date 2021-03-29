@@ -18,50 +18,46 @@ const secondaryPinIcon = L.icon({
   iconAnchor: [16, 32],
 });
 
+const mainPinIcon = L.icon({
+  iconUrl: 'img/main-pin.svg',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
 
-const initMap = async () => {
-  map = L.map('map-canvas')
-    .on('load', () => {
-      updateLatLngField(defaultLat, defaultLng);
-    })
+const mainPinMarker = L.marker(
+  {
+    lat: 35.6895000,
+    lng: 139.6917100,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
 
-    .setView({
-      lat: defaultLat,
-      lng: defaultLng,
-    }, 10);
+const initMap = (onMapLoaded) => {
+  map = L.map('map-canvas');
+  map.on('load', () => {
+    updateLatLngField(defaultLat, defaultLng);
+    L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    ).addTo(map);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+    mainPinMarker.addTo(map);
+    mainPinMarker.on('moveend', (evt) => {
+      const latLng = evt.target.getLatLng() ;
+      updateLatLngField(latLng.lat, latLng.lng);
+    });
 
-  const mainPinIcon = L.icon({
-    iconUrl: 'img/main-pin.svg',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-  });
-
-  const mainPinMarker = L.marker(
-    {
-      lat: 35.6895000,
-      lng: 139.6917100,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
-
-  mainPinMarker.addTo(map);
-  mainPinMarker.on('moveend', (evt) => {
-    const latLng = evt.target.getLatLng() ;
-    updateLatLngField(latLng.lat, latLng.lng);
-  });
-  return true;
+    onMapLoaded();
+  }).setView({
+    lat: defaultLat,
+    lng: defaultLng,
+  }, 10);
 };
-
 
 const clearMap = () => {
   if(noticesLayerGroup) {

@@ -55,24 +55,20 @@ const filterNotices = (notices) => {
 const initMapLayout = () => {
   const noDataMessage = document.querySelector('.nodata');
 
-  initMap().catch(() => {
-    setMapFormEnabled(false);
-    noDataMessage.classList.remove('hidden');
-    return false;
-  }).then((isInitialized) => {
-    if (isInitialized) {
-      loadBookingData().then((points) => {
-        allNotices = points;
-        refreshData(true);
-        initFormEvents(refreshData);
-      }).catch(() => {
-        noDataMessage.classList.remove('hidden');
-      }).finally(() => {
-        setNoticeFormEnabled(true);
-      });
-    }
-  });
-};
+  setMapFormEnabled(false);
 
+  initMap(() => {
+    setMapFormEnabled(true);
+    loadBookingData().then((points) => {
+      allNotices = points;
+      refreshData(true);
+      initFormEvents(refreshData);
+    }).catch(() => {
+      noDataMessage.classList.remove('hidden');
+    }).finally(() => {
+      setNoticeFormEnabled(true);
+    });
+  })
+};
 
 initMapLayout();

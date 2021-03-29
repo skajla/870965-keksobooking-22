@@ -9,11 +9,23 @@ const minPricePerNight = {
   'palace': 10000,
 };
 
+const MAX_PRICE_PER_NIGHT = 1000000;
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
 
 const adForm = document.querySelector('.ad-form');
 const addressField = adForm.querySelector('#address');
+const titleField = adForm.querySelector('#title');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
+
+const initFieldsByDefault = () => {
+  pricePerNight.setAttribute('max', MAX_PRICE_PER_NIGHT);
+  titleField.setAttribute('minlength', MIN_TITLE_LENGTH);
+  titleField.setAttribute('maxlength', MAX_TITLE_LENGTH);
+}
+
+initFieldsByDefault();
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
