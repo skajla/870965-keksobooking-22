@@ -56,8 +56,8 @@ const filterNoticesByFormFilters = (notices) => {
   return trimArray(notices.filter(notice => {
     let offer = notice.offer;
     let isCheckingSuccess = filters.housingType === FILTER_VALUE_ANY || filters.housingType === offer.type;
-    isCheckingSuccess = isCheckingSuccess && (filters.housingRooms === FILTER_VALUE_ANY || filters.housingRooms === parseInt(offer.rooms));
-    isCheckingSuccess = isCheckingSuccess && (filters.housingGuests === FILTER_VALUE_ANY || filters.housingGuests === parseInt(offer.guests));
+    isCheckingSuccess = isCheckingSuccess && (filters.housingRooms === FILTER_VALUE_ANY || parseInt(filters.housingRooms) === offer.rooms);
+    isCheckingSuccess = isCheckingSuccess && (filters.housingGuests === FILTER_VALUE_ANY || parseInt(filters.housingGuests) === offer.guests);
     isCheckingSuccess = isCheckingSuccess && (filters.features.length === 0 || filters.features.every(v => offer.features.includes(v)));
 
     isCheckingSuccess = isCheckingSuccess && (filters.housingPrice === FILTER_VALUE_ANY || (
