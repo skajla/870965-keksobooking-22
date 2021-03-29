@@ -1,7 +1,16 @@
+/* global _:readonly */
+
+
 import {setNoticeFormEnabled} from './form.js';
 import {initMap, setNoticesToMap} from './map.js';
-import {setMapFormEnabled} from './filter.js';
+import {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents} from './filter.js';
 import {loadBookingData} from './network.js';
+import {trimArray} from './util.js';
+
+
+const RERENDER_DELAY = 500;
+let allNotices = null;
+let lastRefresh = null;
 
 
 const setFormsEnabled = (isEnabled) => {
@@ -12,23 +21,54 @@ const setFormsEnabled = (isEnabled) => {
 setFormsEnabled(false);
 
 
-const initMapLayout = () => {
+const refreshData = (immediately = false) => {
+  let delay;
+  if (immediately === true) {
+    delay = 0;
+  } else {
+    delay = RERENDER_DELAY;
+  }
 
-  const nodataMessage = document.querySelector('.nodata');
+  if(lastRefresh) {
+    lastRefresh.cancel()
+  }
 
-  initMap().catch(() => {
-    setMapFormEnabled(false);
-    nodataMessage.classList.add('hidden');
-  }).then((map) => {
-    if(map) {
-      loadBookingData().then((points) => {
-        setNoticesToMap(map, points);
+  lastRefresh = _.debounce(
+    () => {
+      if(allNotices) {
+        setNoticesToMap(filterNotices(allNotices));
         setMapFormEnabled(true);
-      }).finally(() => {
-        setNoticeFormEnabled(true);
-      });
-    }
-  });
+      }
+    },
+    delay,
+  );
+  lastRefresh();
+};
+
+
+const filterNotices = (notices) => {
+  let resultArray = filterNoticesByFormFilters(notices);
+  return trimArray(resultArray);
+};
+
+
+const initMapLayout = () => {
+  const noDataMessage = document.querySelector('.nodata');
+
+  setMapFormEnabled(false);
+
+  initMap(() => {
+    setMapFormEnabled(true);
+    loadBookingData().then((points) => {
+      allNotices = points;
+      refreshData(true);
+      initFormEvents(refreshData);
+    }).catch(() => {
+      noDataMessage.classList.remove('hidden');
+    }).finally(() => {
+      setNoticeFormEnabled(true);
+    });
+  })
 };
 
 initMapLayout();

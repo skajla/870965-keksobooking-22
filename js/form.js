@@ -9,9 +9,23 @@ const minPricePerNight = {
   'palace': 10000,
 };
 
+const MAX_PRICE_PER_NIGHT = 1000000;
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
 const adForm = document.querySelector('.ad-form');
+const addressField = adForm.querySelector('#address');
+const titleField = adForm.querySelector('#title');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
+
+const initFieldsByDefault = () => {
+  pricePerNight.setAttribute('max', MAX_PRICE_PER_NIGHT);
+  titleField.setAttribute('minlength', MIN_TITLE_LENGTH);
+  titleField.setAttribute('maxlength', MAX_TITLE_LENGTH);
+}
+
+initFieldsByDefault();
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -21,12 +35,17 @@ adForm.addEventListener('submit', (evt) => {
 const prepareAndSendForm = (form) => {
   postBookingData(new FormData(form))
     .then(() => {
+      let oldAddressValue = addressField.value;
       form.reset();
+      updateMinPriceField(typeSelector.value);
+      addressField.value = oldAddressValue;
+
       showFormSentSuccessMessage();
     }).catch (() => {
       showFormSendingFailedMessage();
     });
 };
+
 
 const showFormSentSuccessMessage = () => {
   let messageBlock = document.querySelector('#success').content.cloneNode(true);
@@ -48,17 +67,19 @@ const showFormSendingFailedMessage = () => {
   mainContatiner.appendChild(messageBlock);
 };
 
+
 const onTypeChanged = () => {
-  changePricePlaceholder(typeSelector.value)
+  updateMinPriceField(typeSelector.value)
 };
 
 
-const changePricePlaceholder = (type) => {
+const updateMinPriceField = (type) => {
   const minPrice = minPricePerNight[type];
   pricePerNight.setAttribute('placeholder', minPrice);
+  pricePerNight.setAttribute('min', minPrice);
 };
 
-changePricePlaceholder(typeSelector.value);
+updateMinPriceField(typeSelector.value);
 
 typeSelector.onchange = onTypeChanged;
 
@@ -66,7 +87,7 @@ typeSelector.onchange = onTypeChanged;
 const setNoticeFormEnabled = (isEnabled) => {
   if(isEnabled) {
     setFormEnabled(adForm , 'ad-form--disabled');
-  }else {
+  } else {
     setFormDisabled(adForm, 'ad-form--disabled');
   }
 };
@@ -76,12 +97,11 @@ const roomQuantity = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');
 
 const validateRooms = () => {
-  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value != 100 && roomCapacity.value != 0 && roomQuantity.value >= roomCapacity.value;
-
+  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value !== 100 && roomCapacity.value !== 0 && roomQuantity.value >= roomCapacity.value;
   if(isValid) {
     roomCapacity.setCustomValidity('');
   } else {
-    if(roomQuantity.value == 100) {
+    if(roomQuantity.value === 100) {
       roomCapacity.setCustomValidity('100 комнат только не для гостей!!!');
     } else {
       roomCapacity.setCustomValidity('Гостей много, а комнат мало!!!');

@@ -8,76 +8,88 @@ const mapLatLngMaxPlaces = 5;
 const defaultLat = 35.6895000;
 const defaultLng = 139.6917100;
 
+let noticesLayerGroup;
+let map;
+
+
 const secondaryPinIcon = L.icon({
   iconUrl: 'img/pin.svg',
   iconSize: [32, 32],
   iconAnchor: [16, 32],
 });
 
-const initMap = async () => {
-  const map = L.map('map-canvas')
-    .on('load', () => {
-      updateLatLngField(defaultLat, defaultLng);
-    })
+const mainPinIcon = L.icon({
+  iconUrl: 'img/main-pin.svg',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+});
 
-    .setView({
-      lat: defaultLat,
-      lng: defaultLng,
-    }, 10);
+const mainPinMarker = L.marker(
+  {
+    lat: 35.6895000,
+    lng: 139.6917100,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+const initMap = (onMapLoaded) => {
+  map = L.map('map-canvas');
+  map.on('load', () => {
+    updateLatLngField(defaultLat, defaultLng);
+    L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    ).addTo(map);
 
-  const mainPinIcon = L.icon({
-    iconUrl: 'img/main-pin.svg',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-  });
+    mainPinMarker.addTo(map);
+    mainPinMarker.on('moveend', (evt) => {
+      const latLng = evt.target.getLatLng() ;
+      updateLatLngField(latLng.lat, latLng.lng);
+    });
 
-  const mainPinMarker = L.marker(
-    {
-      lat: 35.6895000,
-      lng: 139.6917100,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
+    onMapLoaded();
+  }).setView({
+    lat: defaultLat,
+    lng: defaultLng,
+  }, 10);
+};
 
-  mainPinMarker.addTo(map);
-  mainPinMarker.on('moveend', (evt) => {
-    const latLng = evt.target.getLatLng() ;
-    updateLatLngField(latLng.lat, latLng.lng);
-  });
-
-  return map;
+const clearMap = () => {
+  if(noticesLayerGroup) {
+    map.removeLayer(noticesLayerGroup);
+    noticesLayerGroup = null;
+  }
 };
 
 
-const setNoticesToMap = (map, notices) =>{
-
-  notices.forEach(notice => {
-    L.marker(
-      {
-        lat: notice.location.lat,
-        lng: notice.location.lng,
-      },
-      {
-        draggable: false,
-        icon: secondaryPinIcon,
-      },
-    ).addTo(map).bindPopup(
-      getCardTemplate(notice),
-      {
-        keepInView: true,
-      },
-    )
-  });
+const setNoticesToMap = (notices) => {
+  if(map) {
+    clearMap();
+    let noticesLayer = notices.map(notice => {
+      return L.marker(
+        {
+          lat: notice.location.lat,
+          lng: notice.location.lng,
+        },
+        {
+          draggable: false,
+          icon: secondaryPinIcon,
+        },
+      ).bindPopup(
+        getCardTemplate(notice),
+        {
+          keepInView: true,
+        },
+      )
+    });
+    noticesLayerGroup = L.layerGroup(noticesLayer);
+    noticesLayerGroup.addTo(map);
+  }
 };
 
 

@@ -8,7 +8,7 @@ const offerTypeCaption = {
 
 const setCardElementText = (cardElement, className, text) => {
   const cardRow = cardElement.querySelector(className);
-  if (text == null || text.length == 0) {
+  if (text === null || text.length === 0) {
     cardRow.classList.add('hidden');
   } else {
     cardRow.textContent = text;
