@@ -9,7 +9,9 @@ const minPricePerNight = {
   'palace': 10000,
 };
 
+
 const adForm = document.querySelector('.ad-form');
+const addressField = adForm.querySelector('#address');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
 
@@ -21,12 +23,17 @@ adForm.addEventListener('submit', (evt) => {
 const prepareAndSendForm = (form) => {
   postBookingData(new FormData(form))
     .then(() => {
+      let oldAddressValue = addressField.value;
       form.reset();
+      updateMinPriceField(typeSelector.value);
+      addressField.value = oldAddressValue;
+
       showFormSentSuccessMessage();
     }).catch (() => {
       showFormSendingFailedMessage();
     });
 };
+
 
 const showFormSentSuccessMessage = () => {
   let messageBlock = document.querySelector('#success').content.cloneNode(true);
@@ -48,17 +55,19 @@ const showFormSendingFailedMessage = () => {
   mainContatiner.appendChild(messageBlock);
 };
 
+
 const onTypeChanged = () => {
-  changePricePlaceholder(typeSelector.value)
+  updateMinPriceField(typeSelector.value)
 };
 
 
-const changePricePlaceholder = (type) => {
+const updateMinPriceField = (type) => {
   const minPrice = minPricePerNight[type];
   pricePerNight.setAttribute('placeholder', minPrice);
+  pricePerNight.setAttribute('min', minPrice);
 };
 
-changePricePlaceholder(typeSelector.value);
+updateMinPriceField(typeSelector.value);
 
 typeSelector.onchange = onTypeChanged;
 
@@ -76,8 +85,7 @@ const roomQuantity = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');
 
 const validateRooms = () => {
-  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value != 100 && roomCapacity.value != 0 && roomQuantity.value >= roomCapacity.value;
-
+  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value !== 100 && roomCapacity.value !== 0 && roomQuantity.value >= roomCapacity.value;
   if(isValid) {
     roomCapacity.setCustomValidity('');
   } else {

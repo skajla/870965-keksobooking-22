@@ -2,12 +2,12 @@ import {setFormEnabled, setFormDisabled, trimArray} from './util.js';
 
 
 const mapFiltersForm = document.querySelector('.map__filters');
-const housingTypeSelector = mapFiltersForm .querySelector('#housing-type');
-const housingPriceSelector = mapFiltersForm .querySelector('#housing-price');
-const housingRoomsSelector = mapFiltersForm .querySelector('#housing-rooms');
-const housingGuestsSelector = mapFiltersForm .querySelector('#housing-guests');
-const housingFeaturesBlock = mapFiltersForm .querySelector('#housing-features');
-const filterDishwasher= housingFeaturesBlock.querySelector('#filter-dishwasher');
+const housingTypeSelector = mapFiltersForm.querySelector('#housing-type');
+const housingPriceSelector = mapFiltersForm.querySelector('#housing-price');
+const housingRoomsSelector = mapFiltersForm.querySelector('#housing-rooms');
+const housingGuestsSelector = mapFiltersForm.querySelector('#housing-guests');
+const housingFeaturesBlock = mapFiltersForm.querySelector('#housing-features');
+const filterDishwasher = housingFeaturesBlock.querySelector('#filter-dishwasher');
 const filterParking = housingFeaturesBlock.querySelector('#filter-parking');
 const filterWasher = housingFeaturesBlock.querySelector('#filter-washer');
 const filterElevator = housingFeaturesBlock.querySelector('#filter-elevator');
