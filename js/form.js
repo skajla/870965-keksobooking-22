@@ -1,6 +1,6 @@
 import {setFormDisabled, setFormEnabled} from './util.js';
 import {postBookingData} from './network.js';
-
+import {resetMap} from './map.js';
 
 const minPricePerNight = {
   'flat': 1000,
@@ -14,7 +14,6 @@ const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 const adForm = document.querySelector('.ad-form');
-const addressField = adForm.querySelector('#address');
 const titleField = adForm.querySelector('#title');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
@@ -35,17 +34,17 @@ adForm.addEventListener('submit', (evt) => {
 const prepareAndSendForm = (form) => {
   postBookingData(new FormData(form))
     .then(() => {
-      let oldAddressValue = addressField.value;
       form.reset();
-      updateMinPriceField(typeSelector.value);
-      addressField.value = oldAddressValue;
-
       showFormSentSuccessMessage();
     }).catch (() => {
       showFormSendingFailedMessage();
     });
 };
 
+adForm.onreset = () => {
+  updateMinPriceField(typeSelector.value);
+  resetMap();
+};
 
 const showFormSentSuccessMessage = () => {
   let messageBlock = document.querySelector('#success').content.cloneNode(true);
@@ -97,11 +96,14 @@ const roomQuantity = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');
 
 const validateRooms = () => {
-  let isValid = roomQuantity.value === 100 && roomCapacity.value === 0 || roomQuantity.value !== 100 && roomCapacity.value !== 0 && roomQuantity.value >= roomCapacity.value;
+  let roomQuantityInt = parseInt(roomQuantity.value);
+  let roomCapacityInt = parseInt(roomCapacity.value);
+
+  let isValid = roomQuantityInt === 100 && roomCapacityInt === 0 || roomQuantityInt !== 100 && roomCapacityInt !== 0 && roomQuantityInt >= roomCapacityInt;
   if(isValid) {
     roomCapacity.setCustomValidity('');
   } else {
-    if(roomQuantity.value === 100) {
+    if(roomQuantityInt === 100) {
       roomCapacity.setCustomValidity('100 комнат только не для гостей!!!');
     } else {
       roomCapacity.setCustomValidity('Гостей много, а комнат мало!!!');

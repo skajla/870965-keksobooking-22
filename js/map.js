@@ -2,6 +2,7 @@
 
 
 import {getCardTemplate} from './card.js';
+import {resetFilterForm} from './filter.js';
 
 
 const mapLatLngMaxPlaces = 5;
@@ -59,6 +60,15 @@ const initMap = (onMapLoaded) => {
   }, 10);
 };
 
+const resetMap = () => {
+  mainPinMarker.setLatLng(new L.LatLng(defaultLat, defaultLng));
+
+  setTimeout(function() {
+    updateLatLngField(defaultLat, defaultLng);
+    resetFilterForm();
+  }, 100);
+};
+
 const clearMap = () => {
   if(noticesLayerGroup) {
     map.removeLayer(noticesLayerGroup);
@@ -100,4 +110,4 @@ const updateLatLngField = (lat, lng) => {
 };
 
 
-export {initMap, setNoticesToMap};
+export {initMap, setNoticesToMap, resetMap};

@@ -58,12 +58,13 @@ const initMapLayout = () => {
   setMapFormEnabled(false);
 
   initMap(() => {
-    setMapFormEnabled(true);
     loadBookingData().then((points) => {
       allNotices = points;
       refreshData(true);
       initFormEvents(refreshData);
+      setMapFormEnabled(true);
     }).catch(() => {
+      setMapFormEnabled(false);
       noDataMessage.classList.remove('hidden');
     }).finally(() => {
       setNoticeFormEnabled(true);

@@ -22,6 +22,7 @@ const FILTER_VALUE_HIGH = 'high';
 const MAX_FOR_LOW_PRICE = 10000;
 const MAX_FOR_MIDDLE_PRICE = 50000;
 
+let onFilterItemChanged;
 
 const setMapFormEnabled = (isEnabled) => {
   if(isEnabled) {
@@ -73,6 +74,7 @@ const filterNoticesByFormFilters = (notices) => {
 
 
 const initFormEvents = (onFilterItemChange) => {
+  onFilterItemChanged = onFilterItemChange;
   housingTypeSelector.onchange = onFilterItemChange;
   housingPriceSelector.onchange = onFilterItemChange;
   housingRoomsSelector.onchange = onFilterItemChange;
@@ -86,5 +88,11 @@ const initFormEvents = (onFilterItemChange) => {
   filterWifi.onchange = onFilterItemChange;
 };
 
+const resetFilterForm = () => {
+  mapFiltersForm.reset();
+  if (onFilterItemChanged) {
+    onFilterItemChanged();
+  }
+};
 
-export {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents};
+export {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents, resetFilterForm};
