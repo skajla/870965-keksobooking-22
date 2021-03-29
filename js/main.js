@@ -53,11 +53,11 @@ const filterNotices = (notices) => {
 
 
 const initMapLayout = () => {
-  const nodataMessage = document.querySelector('.nodata');
+  const noDataMessage = document.querySelector('.nodata');
 
   initMap().catch(() => {
     setMapFormEnabled(false);
-    nodataMessage.classList.add('hidden');
+    noDataMessage.classList.add('hidden');
   }).then((isInitialized) => {
     if (isInitialized) {
       loadBookingData().then((points) => {

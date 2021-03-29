@@ -81,7 +81,7 @@ const validateRooms = () => {
   if(isValid) {
     roomCapacity.setCustomValidity('');
   } else {
-    if(roomQuantity.value == 100) {
+    if(roomQuantity.value === 100) {
       roomCapacity.setCustomValidity('100 комнат только не для гостей!!!');
     } else {
       roomCapacity.setCustomValidity('Гостей много, а комнат мало!!!');
