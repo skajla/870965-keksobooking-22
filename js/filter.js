@@ -24,10 +24,11 @@ const MAX_FOR_MIDDLE_PRICE = 50000;
 
 let onFilterItemChanged;
 
+
 const setMapFormEnabled = (isEnabled) => {
   if(isEnabled) {
     setFormEnabled(mapFiltersForm, 'map__filters--disabled');
-  }else {
+  } else {
     setFormDisabled(mapFiltersForm, 'map__filters--disabled');
   }
 };
@@ -88,11 +89,13 @@ const initFormEvents = (onFilterItemChange) => {
   filterWifi.onchange = onFilterItemChange;
 };
 
+
 const resetFilterForm = () => {
   mapFiltersForm.reset();
   if (onFilterItemChanged) {
     onFilterItemChanged();
   }
 };
+
 
 export {setMapFormEnabled, filterNoticesByFormFilters, initFormEvents, resetFilterForm};

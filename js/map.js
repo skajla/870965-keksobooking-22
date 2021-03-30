@@ -60,14 +60,15 @@ const initMap = (onMapLoaded) => {
   }, 10);
 };
 
+
 const resetMap = () => {
   mainPinMarker.setLatLng(new L.LatLng(defaultLat, defaultLng));
-
   setTimeout(function() {
     updateLatLngField(defaultLat, defaultLng);
     resetFilterForm();
   }, 100);
 };
+
 
 const clearMap = () => {
   if(noticesLayerGroup) {

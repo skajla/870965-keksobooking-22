@@ -34,4 +34,9 @@ const trimArray = (array) => {
 };
 
 
-export {setFormDisabled, setFormEnabled, trimArray};
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+
+export {setFormDisabled, setFormEnabled, trimArray, isEscEvent};

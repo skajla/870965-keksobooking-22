@@ -54,9 +54,7 @@ const filterNotices = (notices) => {
 
 const initMapLayout = () => {
   const noDataMessage = document.querySelector('.nodata');
-
   setMapFormEnabled(false);
-
   initMap(() => {
     loadBookingData().then((points) => {
       allNotices = points;
@@ -71,5 +69,6 @@ const initMapLayout = () => {
     });
   })
 };
+
 
 initMapLayout();

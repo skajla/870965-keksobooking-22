@@ -1,6 +1,7 @@
-import {setFormDisabled, setFormEnabled} from './util.js';
+import {setFormDisabled, setFormEnabled, isEscEvent} from './util.js';
 import {postBookingData} from './network.js';
 import {resetMap} from './map.js';
+
 
 const minPricePerNight = {
   'flat': 1000,
@@ -8,6 +9,7 @@ const minPricePerNight = {
   'house': 5000,
   'palace': 10000,
 };
+
 
 const MAX_PRICE_PER_NIGHT = 1000000;
 const MIN_TITLE_LENGTH = 30;
@@ -17,6 +19,7 @@ const adForm = document.querySelector('.ad-form');
 const titleField = adForm.querySelector('#title');
 const pricePerNight = adForm.querySelector('#price');
 const typeSelector = adForm.querySelector('#type');
+const mainContainer = document.querySelector('main');
 
 const initFieldsByDefault = () => {
   pricePerNight.setAttribute('max', MAX_PRICE_PER_NIGHT);
@@ -26,10 +29,12 @@ const initFieldsByDefault = () => {
 
 initFieldsByDefault();
 
+
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   prepareAndSendForm(evt.target);
 });
+
 
 const prepareAndSendForm = (form) => {
   postBookingData(new FormData(form))
@@ -41,30 +46,54 @@ const prepareAndSendForm = (form) => {
     });
 };
 
+
 adForm.onreset = () => {
   updateMinPriceField(typeSelector.value);
   resetMap();
 };
 
+
 const showFormSentSuccessMessage = () => {
   let messageBlock = document.querySelector('#success').content.cloneNode(true);
-  let mainContatiner = document.querySelector('main');
-
   messageBlock.firstElementChild.onclick = () => {
-    mainContatiner.removeChild(mainContatiner.querySelector('.success'));
+    mainContainer.removeChild(mainContainer.querySelector('.success'));
   }
-  mainContatiner.appendChild(messageBlock);
+  mainContainer.appendChild(messageBlock);
 };
+
 
 const showFormSendingFailedMessage = () => {
   let messageBlock = document.querySelector('#error').content.cloneNode(true);
-  let mainContatiner = document.querySelector('main');
-
   messageBlock.firstElementChild.onclick = () => {
-    mainContatiner.removeChild(mainContatiner.querySelector('.error'));
+    mainContainer.removeChild(mainContainer.querySelector('.error'));
   }
-  mainContatiner.appendChild(messageBlock);
+  mainContainer.appendChild(messageBlock);
 };
+
+
+const closeFormSentMessage = () => {
+  let successOverlay = mainContainer.querySelector('.success');
+  let errorOverlay = mainContainer.querySelector('.error');
+
+  if (successOverlay) {
+    mainContainer.removeChild(successOverlay);}
+
+  if (errorOverlay) {
+    mainContainer.removeChild(errorOverlay);
+  }
+};
+
+
+const initOnEscPressedEvent = () => {
+  document.addEventListener('keydown', (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      closeFormSentMessage();
+    }
+  });
+};
+
+initOnEscPressedEvent();
 
 
 const onTypeChanged = () => {
@@ -80,6 +109,7 @@ const updateMinPriceField = (type) => {
 
 updateMinPriceField(typeSelector.value);
 
+
 typeSelector.onchange = onTypeChanged;
 
 
@@ -94,6 +124,7 @@ const setNoticeFormEnabled = (isEnabled) => {
 
 const roomQuantity = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');
+
 
 const validateRooms = () => {
   let roomQuantityInt = parseInt(roomQuantity.value);
@@ -111,9 +142,11 @@ const validateRooms = () => {
   }
 };
 
+
 roomCapacity.onchange = () => {
   validateRooms()
 };
+
 
 roomQuantity.onchange = () => {
   validateRooms()
@@ -123,9 +156,11 @@ roomQuantity.onchange = () => {
 const checkInTime = adForm.querySelector('#timein');
 const checkOutTime = adForm.querySelector('#timeout');
 
+
 checkInTime.onchange = () => {
   checkOutTime.value = checkInTime.value ;
 };
+
 
 checkOutTime.onchange = () => {
   checkInTime.value = checkOutTime.value ;
