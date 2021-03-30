@@ -1,5 +1,12 @@
 import {setFormEnabled, setFormDisabled, trimArray} from './util.js';
 
+const FILTER_VALUE_ANY = 'any';
+const FILTER_VALUE_LOW = 'low';
+const FILTER_VALUE_MIDDLE = 'middle';
+const FILTER_VALUE_HIGH = 'high';
+
+const MAX_FOR_LOW_PRICE = 10000;
+const MAX_FOR_MIDDLE_PRICE = 50000;
 
 const mapFiltersForm = document.querySelector('.map__filters');
 const housingTypeSelector = mapFiltersForm.querySelector('#housing-type');
@@ -13,14 +20,6 @@ const filterWasher = housingFeaturesBlock.querySelector('#filter-washer');
 const filterElevator = housingFeaturesBlock.querySelector('#filter-elevator');
 const filterConditioner = housingFeaturesBlock.querySelector('#filter-conditioner');
 const filterWifi = housingFeaturesBlock.querySelector('#filter-wifi');
-
-const FILTER_VALUE_ANY = 'any';
-const FILTER_VALUE_LOW = 'low';
-const FILTER_VALUE_MIDDLE = 'middle';
-const FILTER_VALUE_HIGH = 'high';
-
-const MAX_FOR_LOW_PRICE = 10000;
-const MAX_FOR_MIDDLE_PRICE = 50000;
 
 let onFilterItemChanged;
 
@@ -36,12 +35,30 @@ const setMapFormEnabled = (isEnabled) => {
 
 const readMapFilters = () => {
   let features = new Array();
-  if(filterDishwasher.checked) features.push('dishwasher');
-  if(filterParking.checked) features.push('parking');
-  if(filterWasher.checked) features.push('washer');
-  if(filterElevator.checked) features.push('elevator');
-  if(filterConditioner.checked) features.push('conditioner');
-  if(filterWifi.checked) features.push('wifi');
+
+  if(filterDishwasher.checked) {
+    features.push('dishwasher');
+  }
+
+  if(filterParking.checked) {
+    features.push('parking');
+  }
+
+  if(filterWasher.checked) {
+    features.push('washer');
+  }
+
+  if(filterElevator.checked) {
+    features.push('elevator');
+  }
+
+  if(filterConditioner.checked) {
+    features.push('conditioner');
+  }
+
+  if(filterWifi.checked) {
+    features.push('wifi');
+  }
 
   return {
     housingType: housingTypeSelector.value,

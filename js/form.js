@@ -48,7 +48,11 @@ const prepareAndSendForm = (form) => {
 
 
 adForm.onreset = () => {
-  updateMinPriceField(typeSelector.value);
+
+  setTimeout(function() {
+    updateMinPriceField(typeSelector.value);
+  }, 100);
+
   resetMap();
 };
 

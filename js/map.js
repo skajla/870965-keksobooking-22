@@ -5,9 +5,9 @@ import {getCardTemplate} from './card.js';
 import {resetFilterForm} from './filter.js';
 
 
-const mapLatLngMaxPlaces = 5;
-const defaultLat = 35.6895000;
-const defaultLng = 139.6917100;
+const MAP_LATLNG_MAX_PLACES = 5;
+const DEFAULT_LAT = 35.6895000;
+const DEFAULT_LNG = 139.6917100;
 
 let noticesLayerGroup;
 let map;
@@ -39,7 +39,7 @@ const mainPinMarker = L.marker(
 const initMap = (onMapLoaded) => {
   map = L.map('map-canvas');
   map.on('load', () => {
-    updateLatLngField(defaultLat, defaultLng);
+    updateLatLngField(DEFAULT_LAT, DEFAULT_LNG);
     L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
@@ -55,16 +55,16 @@ const initMap = (onMapLoaded) => {
 
     onMapLoaded();
   }).setView({
-    lat: defaultLat,
-    lng: defaultLng,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   }, 10);
 };
 
 
 const resetMap = () => {
-  mainPinMarker.setLatLng(new L.LatLng(defaultLat, defaultLng));
+  mainPinMarker.setLatLng(new L.LatLng(DEFAULT_LAT, DEFAULT_LNG));
   setTimeout(function() {
-    updateLatLngField(defaultLat, defaultLng);
+    updateLatLngField(DEFAULT_LAT, DEFAULT_LNG);
     resetFilterForm();
   }, 100);
 };
@@ -107,7 +107,7 @@ const setNoticesToMap = (notices) => {
 const addressItem = document.querySelector('#address');
 
 const updateLatLngField = (lat, lng) => {
-  addressItem.value = lat.toFixed(mapLatLngMaxPlaces) + ', ' + lng.toFixed(mapLatLngMaxPlaces);
+  addressItem.value = lat.toFixed(MAP_LATLNG_MAX_PLACES) + ', ' + lng.toFixed(MAP_LATLNG_MAX_PLACES);
 };
 
 

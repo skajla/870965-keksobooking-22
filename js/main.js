@@ -22,12 +22,7 @@ setFormsEnabled(false);
 
 
 const refreshData = (immediately = false) => {
-  let delay;
-  if (immediately === true) {
-    delay = 0;
-  } else {
-    delay = RERENDER_DELAY;
-  }
+  let delay = immediately === true ? 0 : RERENDER_DELAY;
 
   if(lastRefresh) {
     lastRefresh.cancel()
